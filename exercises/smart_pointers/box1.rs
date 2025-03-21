@@ -18,12 +18,12 @@
 //
 // Execute `rustlings hint box1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
-
 #[derive(PartialEq, Debug)]
+/// Rust 要求所有类型在编译时具有确定的大小。如果 Cons 直接存储 List 类型（而非 Box<List>），会导致无限递归
 pub enum List {
-    Cons(i32, List),
+    Cons(i32, Box<List>), // Box 是一个智能指针，它在堆上分配数据。Box<List> 的大小是固定的（等于指针大小）
     Nil,
+    // Cons(i32, List)  // 错误！包含自身类型，大小无限递归
 }
 
 fn main() {
@@ -35,11 +35,11 @@ fn main() {
 }
 
 pub fn create_empty_list() -> List {
-    todo!()
+    List::Nil
 }
 
 pub fn create_non_empty_list() -> List {
-    todo!()
+    List::Cons(233, Box::new(List::Nil))
 }
 
 #[cfg(test)]
